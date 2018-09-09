@@ -6,21 +6,42 @@ import TableData from './TableData';
 import AddUser from './AddUser';
 import DataUser from './Data.json';
 
+const uuidv1 = require('uuid/v1'); 
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       displayForm : false,
       data : DataUser,
-      searchText : ''
+      inputValue : ''
     }
-   
   }
 
-  getTextSearch = (ipData) => {
+  /**
+   * Get value từ form insert & insert new user
+   */
+  getDataInsert = (name,tel,permission) => {
+    var item = [];
+    item.id = uuidv1(),
+    item.name = name,
+    item.tel = tel,
+    item.permission = permission
+    var items = this.state.data;
+    items.push(item);
     this.setState({
-      searchText : ipData
+      data : items
     });
+  }
+  /* 
+  * Get value from input Search
+  */
+  getTextSearch = (ipData) => {
+    //   console.log(ipData);
+      this.setState({
+          inputValue : ipData
+      });
+    //   console.log(this.state.inputValue);
   }
   changeStateForm = () => {
     this.setState({
@@ -30,11 +51,11 @@ class App extends Component {
   render() {
     var result = [];
     this.state.data.forEach((item) => {
-      if(item.name.indexOf(this.state.searchText) !== -1){
-        result.push(item);
-      }
+        if(item.name.indexOf(this.state.inputValue) !== -1) {
+            result.push(item);
+        }
     })
-    console.log(result);
+    // console.log(result);
     return (
       <div>
          <Header />
@@ -45,7 +66,8 @@ class App extends Component {
                   checkConProps={(ipData) => this.getTextSearch(ipData)}
                 />
                 <TableData dataUserProps={result} />
-                <AddUser displayForm={this.state.displayForm}  />
+                <AddUser displayForm={this.state.displayForm}
+                 insertDataProps={(name,tel,permission) => this.getDataInsert(name,tel,permission)}  />
               </div>
             </div>
          </div>

@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 
 class TableDataRow extends Component {
     
+    
+
+    editClick = () => {
+        this.props.editFunClick();
+        this.props.changeEditUserStatus();
+    }
     permissionShow = () => {
         if(this.props.userRole === 1) {
             return "Admin";
@@ -12,13 +18,13 @@ class TableDataRow extends Component {
     render() {
         return (
             <tr>
-                <td >{this.props.userId}</td>
+                <td>{this.props.stt + 1}</td>
                 <td>{this.props.userName}</td>
                 <td>{this.props.userPhone}</td>
                 <td>{this.permissionShow()}</td>
                 <td>
                     <div className="btn-group">
-                    <div className="btn btn-warning sua">
+                    <div className="btn btn-warning sua" onClick={() => this.editClick()}>
                         <i className="fa fa-edit"> Edit </i>
                     </div>
                     <div className="btn btn-danger xoa">

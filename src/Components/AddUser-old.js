@@ -14,11 +14,12 @@ class AddUser extends Component {
     isChangeValue = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        // console.log (name + " " + value);
         this.setState({
             [name] : value
         });
+      
     }
+    
     checkStateForm = () => {
         if(this.props.displayForm === true) {
             return (
@@ -50,7 +51,7 @@ class AddUser extends Component {
                     </div>
                     <div className="form-group">
                         <input type="reset" className="btn btn-block btn-primary"
-                            onClick={(name,tel,permission) => this.props.insertNewUser(this.state.name, this.state.tel, this.state.permission)}
+                         onClick={(name,tel,permission) => this.props.insertDataProps(this.state.name, this.state.tel, this.state.permission)}
                          value="New"
                          />
                     </div>
@@ -62,6 +63,7 @@ class AddUser extends Component {
         }
     }
     render() {
+        // console.log(this.state);
         return (
             <div className="text-center">
                 {
