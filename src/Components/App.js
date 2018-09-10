@@ -13,16 +13,42 @@ class App extends Component {
     super(props);
     this.state = {
       displayForm : false,
-      data : DataUser,
+      data : '',
       inputValue : '',
       editUserStatus : false,
       userEditObject : {}
     }
   }
+
+  componentWillMount = () => {
+    if(localStorage.getItem('userData') === null) {
+      localStorage.setItem('userData', JSON.stringify(DataUser));
+    } else {
+      var temp = JSON.parse(localStorage.getItem('userData'));
+      this.setState({
+        data : temp
+      });
+    }
+  }
+
   changeEditUserStatus = () => {
       this.setState({
         editUserStatus : !this.state.editUserStatus 
       });
+  }
+  /**
+   * 
+   * Delete User
+   */
+  deleteUser = (idUser) => {
+    // console.log(idUser);
+    var tempData =  this.state.data.filter(item => item.id !== idUser);
+    this.setState({
+      data : tempData
+    });
+
+    //đẩy vao dữ liệu
+    localStorage.setItem('userData', JSON.stringify(tempData));
   }
   /**
    * 
@@ -34,8 +60,9 @@ class App extends Component {
             value.name = info.name,
             value.tel = info.tel,
             value.permission = info.permission
-        }
+        } 
     })
+    localStorage.setItem('userData', JSON.stringify(this.state.data));
   }
   /**
    * Get value từ form insert & insert new user
@@ -51,6 +78,7 @@ class App extends Component {
     this.setState({
        data : items
     });
+    // localStorage.setItem('userData', JSON.stringify(this.state.data));
   }
   /* 
   * Get value from input Search
@@ -100,6 +128,7 @@ class App extends Component {
                   getUserEditInfoApp = {(info) => this.getUserEditInfoApp(info) }
                 />
                 <TableData 
+                deleteUser ={(idUser) => this.deleteUser(idUser)}
                 changeEditUserStatus={() => this.changeEditUserStatus()}
                 editFunProps={(user) => this.editFun(user)} dataUserProps={result} />
                 <AddUser displayForm={this.state.displayForm}

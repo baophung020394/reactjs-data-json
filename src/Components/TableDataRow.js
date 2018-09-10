@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 class TableDataRow extends Component {
     
     
-
+    deleteButtonClick = (idUser) => {
+        this.props.deleteButtonClick(idUser);
+    }
     editClick = () => {
         this.props.editFunClick();
         this.props.changeEditUserStatus();
@@ -27,7 +29,7 @@ class TableDataRow extends Component {
                     <div className="btn btn-warning sua" onClick={() => this.editClick()}>
                         <i className="fa fa-edit"> Edit </i>
                     </div>
-                    <div className="btn btn-danger xoa">
+                    <div className="btn btn-danger xoa" onClick={(idUser) => {this.deleteButtonClick(this.props.userId)}}>
                         <i className="fa fa-trash-o"> Delete</i>
                     </div>
                     </div>
